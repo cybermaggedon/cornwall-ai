@@ -74,6 +74,11 @@ A: Redruth, Falmouth, St Austell, Truro, Newquay
 +------------+------------+
 ```
 
+## Erratum
+
+There is an error here, Redruth is not the county town of Cornwall.
+Could be an interesting exercise for people to fix.
+
 ## Data
 
 The data is in the data directory, all copy/pasted from Wikipedia.
