@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+
+import pandas as pd
+from table_query import TableQuery
+from text_query import TextQuery
+from semantic_search import SemanticSearch
+from result import *
+
+# Given a pathname return the text of the file at that path
+def text(path):
+    return open(path).read().replace("\n", " ")
+
+# Given a pathname return the CSV file at that path, as a Pandas dataframe
+def table(path):
+    return pd.read_csv(path)
+
+print("Loading...")
+
+# Initialise semantic serach
+ss = SemanticSearch.create()
+
+# Add knowledge
+ss.add(
+    "Bude is in the county of Cornwall",
+    TextQuery.create(text("data/bude.txt"))
+)
+
+ss.add(
+    "Exeter is in the county of Devon",
+    TextQuery.create(text("data/exeter.txt"))
+)
+
+ss.add(
+    "The county capital of Devon is Exeter",
+    TextQuery.create(text("data/devon.txt"))
+)
+
+ss.add(
+    "The county capital of Cornwall is Truro",
+    TextQuery.create(text("data/truro.txt"))
+)
+
+ss.add(
+    "A soufflé is a baked egg-based dish",
+    TextQuery.create(text("data/souffle.txt"))
+)
+
+ss.add(
+    "What is a revolution",
+    TextQuery.create(text("data/revolution.txt"))
+)
+
+ss.add(
+    "The populations of towns in Cornwall",
+    TableQuery.create(table("data/cornwall_towns.csv"))
+)
+
+ss.add(
+    "The population of Helston in Cornwall",
+    TableQuery.create(table("data/cornwall_towns.csv"))
+)
+
+# Set of questions to ask
+questions = [
+    "Which county is Bude in?",
+    "What is the county town of Cornwall?",
+    "How do you make a souffle?",
+    "How do you start a revolution?",
+    "What is the population of Helston in Cornwall",
+    "Which Cornish towns have populations more than 20000?",
+]
+
+print("Asking questions...")
+
+# Ask questions and show all results
+print()
+for q in questions:
+    ans = ss.query(q)
+    print("Q:", q)
+
+    for an in ans:
+        an.show()
+
+    print()
+
