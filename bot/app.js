@@ -80,48 +80,14 @@ function show_answer(answer, div) {
 	}
 
     }
-/*
-    let a_div = document.createElement("div");
-    a_div.className = "answertext";
-    a_div.appendChild(document.createTextNode(answer));
 
-    div.appendChild(a_div);
+    const scrollOptions = {
+	behavior: "smooth",
+	block: "center"
+    };
 
-    let numrows = table[columns[0]].length;
+    document.getElementById("input").scrollIntoView(scrollOptions);
 
-    if (numrows == 0) {
-	a_div.appendChild(document.createTextNode("No data found"));
-	return;
-    }
-
-    let tblelt = document.createElement("table");
-
-    let thead = tblelt.createTHead();
-
-    let row = thead.insertRow(0);
-
-    for (let i = 0; i < columns.length; i++) {
-        cell = row.insertCell(i);
-	cell.appendChild(document.createTextNode(columns[i]));
-    }
-
-    for (let j = 0; j < numrows; j++) {
-
-	let row = tblelt.insertRow(j + 1);
-
-	for (let i = 0; i < columns.length; i++) {
-
-	    let datum = table[columns[i]][j];
-
-	    cell = row.insertCell(i);
-	    cell.appendChild(document.createTextNode(datum));
-
-	}
-
-    }
-
-    div.appendChild(tblelt);
-  */  
 }
 
 function wait_for(id, div) {
