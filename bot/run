@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+
+# Note: This application won't scale well, hopefully won't need to.
+# aiohttp makes the web framework async, but the DB access is all
+# synchronous.
+
+from aiohttp import web
+import json
+import uuid
+import datetime
+
+from cornwall_ai import CornwallAI as AI
+
+async def index(request):
+    text = open("bot/index.html", "r").read()
+    return web.Response(content_type="text/html", text=text)
+
+async def style(request):
+    text = open("bot/style.css", "r").read()
+    return web.Response(content_type="text/css", text=text)
+
+async def js(request):
+    text = open("bot/app.js", "r").read()
+    return web.Response(content_type="text/javascript", text=text)
+
+async def root(request):
+    raise web.HTTPFound(location="/index.html")
+
+questions = {}
+
+async def create_question(request):
+
+    data = await request.json()
+
+    qid = str(uuid.uuid4())
+
+    questions[qid] = {
+        "question": data["question"],
+        "answer": [],
+        "state": "created",
+        "created": datetime.datetime.utcnow()
+    }
+
+    ans = ai.query(data["question"])
+
+    questions[qid]["answer"] = [
+        an.object()
+        for an in ans
+    ]
+
+    questions[qid]["state"] = "complete"
+
+    return web.json_response(
+        {
+            "id": qid,
+        }
+    )
+
+async def get_question(request):
+
+    id = request.match_info['id']
+
+    if id not in questions:
+        return web.HTTPInternalServerError()
+
+    q = questions[id]
+#     update_question(q)
+
+    return web.json_response({
+        "id": id,
+        "question": q["question"],
+        "answer": q["answer"],
+        "state": q["state"],
+        "created": q["created"].isoformat(),
+    })
+
+def startup():
+    print("Startup Initializing")
+
+startup()
+
+ai = AI()
+
+app = web.Application()
+app.add_routes([
+    web.get("/", root),
+    web.get("/index.html", index),
+    web.get("/style.css", style),
+    web.get("/app.js", js),
+    web.put("/api/question", create_question),
+    web.get("/api/question/{id}", get_question),
+])
+
+web.run_app(app)
+

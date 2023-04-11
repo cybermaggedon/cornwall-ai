@@ -1,0 +1,83 @@
+
+.dialog {
+    margin: 0.2rem;
+    padding: 0.5rem;
+    color: white;
+    font-family: monospace;
+    background: black;
+    border: 2px solid #404040;
+    font-size: large;
+}
+
+.answertext {
+    padding: 1rem;
+}
+
+.answer {
+    background: #103010;
+}
+
+body {
+    background: #402020;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid white;
+    margin: 1rem;
+}
+
+input {
+    width: 40rem;
+    margin: 0.3rem;
+    padding: 1rem;
+    font-size: large;
+}
+
+tr, td, th {
+    border: 1px solid white;
+    padding: 0.5rem;
+}
+
+.lds-thinking {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 40px;
+}
+
+.lds-thinking div {
+  display: inline-block;
+  position: absolute;
+  left: 4px;
+  width: 8px;
+  background: #fff;
+  animation: lds-thinking 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+
+.lds-thinking div:nth-child(1) {
+  left: 4px;
+  animation-delay: -0.24s;
+}
+
+.lds-thinking div:nth-child(2) {
+  left: 20px;
+  animation-delay: -0.12s;
+}
+
+.lds-thinking div:nth-child(3) {
+  left: 36px;
+  animation-delay: 0;
+}
+
+@keyframes lds-thinking {
+  0% {
+    top: 8px;
+    height: 32px;
+  }
+  50%, 100% {
+    top: 12px;
+    height: 16px;
+  }
+}
+
