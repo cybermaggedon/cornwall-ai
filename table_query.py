@@ -59,6 +59,11 @@ class TableQuery:
         # Table cells must be strings, this does a conversion
         self.table = table.astype(str)
 
+        # Initialise on demand
+        self.model = None
+
+    def init_model(self):
+
         # The model pathnames on Hugging Face.  Tokeniser and model path
         # TAPAS fine-tune trained on WikiTable questions
         self.tk_path = "google/tapas-large-finetuned-wtq"
@@ -75,6 +80,9 @@ class TableQuery:
         Query the table using an English-language question, returning a
         Result array.
         """
+
+        if self.model == None:
+            self.init_model()
 
         # Tokenise the question to tensors
         inputs = self.tokenizer(

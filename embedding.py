@@ -27,9 +27,14 @@ class Embedding:
         """
 
         self.model_id = "sentence-transformers/all-MiniLM-L6-v2"
-        self.model = SentenceTransformer(self.model_id)
+        self.model = None
 
     def get(self, text):
         "Maps English text to a 384-vector embedding"
 
+        if self.model == None:
+            self.model = SentenceTransformer(self.model_id)
+
         return self.model.encode(text)
+
+    

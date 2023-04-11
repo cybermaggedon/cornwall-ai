@@ -45,7 +45,7 @@ class TextQuery:
 
     # Pipeline.  Pipeline stores no state, so can be shared by multiple
     # class instances.
-    model = pipeline("question-answering", model=model_id)
+    model = None
 
     @staticmethod
     def create(text):
@@ -58,6 +58,12 @@ class TextQuery:
 
     def query(self, question):
         "Query the model, returning a Result array"
+
+        if TextQuery.model == None:
+            TextQuery.model = pipeline(
+                "question-answering", model=TextQuery.model_id
+            )
+
         ans = TextQuery.model(question=question, context=self.text)
 
         return [TextResult(ans["answer"])]
